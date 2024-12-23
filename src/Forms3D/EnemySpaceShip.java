@@ -11,9 +11,6 @@ public class EnemySpaceShip {
     private static float angle = 0.0f;  // Angle de rotation
 
     public static void drawEnemySpaceShip(GL2 gl) {
-        gl.glLoadIdentity();
-
-        gl.glTranslatef(-0.0f, -5.0f, -20.0f);  // Reculer la vue
         gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);  // Rotation verticale
 
         // Dessiner le cube

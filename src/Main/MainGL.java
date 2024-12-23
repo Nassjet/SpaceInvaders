@@ -1,12 +1,13 @@
 package Main;
 
 import Forms3D.EnemySpaceShip;
-import Forms3D.PlacementsEnemySpaceShip;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.*;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
+
+import static Placements.PlacementsEnemySpaceShip.deplacerGenerationPointForme;
 
 public class MainGL implements GLEventListener {
     public static void main(String[] args) {
@@ -41,7 +42,7 @@ public class MainGL implements GLEventListener {
 
         // Placer et dessiner plusieurs formes
         for (int i = 0; i < 10; i++) {// Déplacer la forme à la nouvelle position
-            gl.glTranslatef(2.0f, 0.0f, -5.0f);
+            deplacerGenerationPointForme(gl);
             EnemySpaceShip.drawEnemySpaceShip(gl);  // Dessiner la forme
         }
     }
