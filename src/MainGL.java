@@ -1,13 +1,12 @@
-package Main;
-
-import Forms3D.EnemySpaceShip;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.*;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 
-import static Placements.PlacementsEnemySpaceShip.deplacerGenerationPointForme;
+import static Forms3D.EnemySpaceShip.drawEnemySpaceShip;
+import static InteractionEspace.Placements.*;
+
 
 public class MainGL implements GLEventListener {
     public static void main(String[] args) {
@@ -36,16 +35,30 @@ public class MainGL implements GLEventListener {
     }
 
     @Override
+
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
-        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT); // Nettoyer le buffer
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
 
-        // Placer et dessiner plusieurs formes
-        for (int i = 0; i < 10; i++) {// Déplacer la forme à la nouvelle position
-            deplacerGenerationPointForme(gl);
-            EnemySpaceShip.drawEnemySpaceShip(gl);  // Dessiner la forme
+        placerCamera(gl);
+        resetShiftY();  // Reset Y au début de chaque frame
+
+        // Dessiner plusieurs lignes
+        for (int j = 0; j < 4; j++) {
+            resetShiftX();
+
+            for (int i = 0; i < 10; i++) {
+                gl.glPushMatrix();  // Sauvegarde l'état actuel
+                deplacerGenerationPointFormeX(gl);  // Décale horizontalement
+                drawEnemySpaceShip(gl);  // Dessine le cube
+                gl.glPopMatrix();  // Restaure la matrice
+            }
+
+            deplacerGenerationPointFormeY(gl);  // Décale vers la ligne suivante (vers le bas)
         }
     }
+
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {

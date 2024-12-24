@@ -12,7 +12,6 @@ public class EnemySpaceShip {
 
     public static void drawEnemySpaceShip(GL2 gl) {
         gl.glRotatef(angle, 0.0f, 1.0f, 0.0f);  // Rotation verticale
-
         // Dessiner le cube
         gl.glBegin(GL2.GL_QUADS);
         gl.glColor3f(1.0f, 0.0f, 0.0f);
@@ -58,6 +57,6 @@ public class EnemySpaceShip {
 
         gl.glEnd();
 
-        angle += 0.5;
+        angle += 0.01;
     }
 }
