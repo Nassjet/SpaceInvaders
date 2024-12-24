@@ -25,10 +25,14 @@ public class Placements {
 
     // Remet à zéro les décalages
     public static void resetShiftX() {
-        shiftX = -20.0f;
+        shiftX = -18f;
     }
 
     public static void resetShiftY() {
         shiftY = 20.0f;  // Place la première ligne au niveau Y = 20
+    }
+
+    public static void placerSpaceShip(GL2 gl) {
+        gl.glTranslatef(0, -8, 0.0f);
     }
 }

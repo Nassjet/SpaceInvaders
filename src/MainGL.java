@@ -1,3 +1,5 @@
+import Forms3D.Shoot;
+import Forms3D.SpaceShip;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.*;
@@ -5,6 +7,7 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import static Forms3D.EnemySpaceShip.drawEnemySpaceShip;
+import static Forms3D.SpaceShip.drawSpaceShip;
 import static InteractionEspace.Placements.*;
 
 
@@ -23,7 +26,7 @@ public class MainGL implements GLEventListener {
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
 
-        FPSAnimator animator = new FPSAnimator(glPanel, 120, true);
+        FPSAnimator animator = new FPSAnimator(glPanel, 60, true);
         animator.start();
     }
 
@@ -42,13 +45,16 @@ public class MainGL implements GLEventListener {
         gl.glLoadIdentity();
 
         placerCamera(gl);
+        placerSpaceShip(gl);
+        drawSpaceShip(gl);
+        Shoot.drawShoot(gl);
         resetShiftY();  // Reset Y au début de chaque frame
 
         // Dessiner plusieurs lignes
-        for (int j = 0; j < 4; j++) {
+        for (int j = 0; j < 2; j++) {
             resetShiftX();
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 8; i++) {
                 gl.glPushMatrix();  // Sauvegarde l'état actuel
                 deplacerGenerationPointFormeX(gl);  // Décale horizontalement
                 drawEnemySpaceShip(gl);  // Dessine le cube
