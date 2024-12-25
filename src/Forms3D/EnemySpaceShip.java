@@ -1,7 +1,7 @@
 package Forms3D;
 import com.jogamp.opengl.*;
 
-import static InteractionEspace.Movements.*;
+import static InteractionEspace.MovementsEnemySpaceShip.*;
 
 public class EnemySpaceShip {
 
@@ -63,9 +63,6 @@ public class EnemySpaceShip {
         angle += 0.01f;
 
         // Appeler les méthodes de déplacement
-        updatePosition();
+        updatePositionEnemySpaceShip();
     }
-
-    // Déplace en X puis en Y puis en X puis en Y
-
 }
