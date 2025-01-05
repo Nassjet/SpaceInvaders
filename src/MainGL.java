@@ -5,6 +5,7 @@ import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.*;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
+import InteractionEspace.MovementsSpaceShip;
 
 import static Forms3D.EnemySpaceShip.drawEnemySpaceShip;
 import static Forms3D.SpaceShip.drawSpaceShip;
@@ -12,6 +13,8 @@ import static InteractionEspace.Placements.*;
 
 
 public class MainGL implements GLEventListener {
+    private MovementsSpaceShip movementSpaceShip = new MovementsSpaceShip();  // Instanciation du mouvement
+
     public static void main(String[] args) {
         GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
@@ -19,7 +22,12 @@ public class MainGL implements GLEventListener {
         MainGL mainGL = new MainGL();
         glPanel.addGLEventListener(mainGL);
 
-        JFrame frame = new JFrame("Cube 3D Rotatif");
+        // Ajout du KeyListener pour capturer les touches clavier
+        glPanel.addKeyListener(mainGL.movementSpaceShip);
+        glPanel.setFocusable(true);  // Permet au panel de recevoir les événements clavier
+        glPanel.requestFocus();
+
+        JFrame frame = new JFrame("Space Invaders");
         frame.setSize(1080, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(glPanel);
@@ -38,30 +46,35 @@ public class MainGL implements GLEventListener {
     }
 
     @Override
-
     public void display(GLAutoDrawable drawable) {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
         placerCamera(gl);
+        movementSpaceShip.update();
+
+        // === Dessin du vaisseau ===
+        gl.glPushMatrix();
+        gl.glTranslatef(MovementsSpaceShip.posX, 0.0f, 0.0f);
         placerSpaceShip(gl);
         drawSpaceShip(gl);
-        Shoot.drawShoot(gl);
-        resetShiftY();  // Reset Y au début de chaque frame
+        gl.glPopMatrix();
 
-        // Dessiner plusieurs lignes
+        // === Dessiner les tirs ===
+        Shoot.drawShoots(gl);
+
+        // === Dessin des ennemis ===
+        resetShiftY();
         for (int j = 0; j < 2; j++) {
             resetShiftX();
-
             for (int i = 0; i < 8; i++) {
-                gl.glPushMatrix();  // Sauvegarde l'état actuel
-                deplacerGenerationPointFormeX(gl);  // Décale horizontalement
-                drawEnemySpaceShip(gl);  // Dessine le cube
-                gl.glPopMatrix();  // Restaure la matrice
+                gl.glPushMatrix();
+                deplacerGenerationPointFormeX(gl);
+                drawEnemySpaceShip(gl);
+                gl.glPopMatrix();
             }
-
-            deplacerGenerationPointFormeY(gl);  // Décale vers la ligne suivante (vers le bas)
+            deplacerGenerationPointFormeY(gl);
         }
     }
 
