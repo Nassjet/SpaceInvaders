@@ -3,6 +3,7 @@ package Forms3D;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
+import InteractionEspace.Collision;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,10 +17,18 @@ public class Shoot {
     // Liste des tirs actifs
     private static final ArrayList<Shoot> shoots = new ArrayList<>();
 
+    public float getPosY() {
+        return posY;
+    }
+
+    public float getPosX() {
+        return posX;
+    }
+
     // Position du tir individuel
-    private float posX;
-    private float posY;
-    private float posZ = 0.0f;  // En 3D si besoin
+    public float posX;
+    public float posY;
+    public float posZ = 0.0f;  // En 3D si besoin
 
     // Constructeur : chaque tir a sa propre position initiale
     public Shoot(float x, float y) {
@@ -60,5 +69,4 @@ public class Shoot {
             }
         }
     }
-
 }

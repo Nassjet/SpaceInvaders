@@ -1,19 +1,20 @@
+import Forms3D.EnemySpaceShip;
 import Forms3D.Shoot;
 import Forms3D.SpaceShip;
+import InteractionEspace.ArmyManager;
+import InteractionEspace.Placements;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.*;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 import InteractionEspace.MovementsSpaceShip;
-
-import static Forms3D.EnemySpaceShip.drawEnemySpaceShip;
 import static Forms3D.SpaceShip.drawSpaceShip;
 import static InteractionEspace.Placements.*;
 
-
 public class MainGL implements GLEventListener {
     private MovementsSpaceShip movementSpaceShip = new MovementsSpaceShip();  // Instanciation du mouvement
+    private ArmyManager armyManager = new ArmyManager();  // Instanciation du gestionnaire d'armée
 
     public static void main(String[] args) {
         GLProfile profile = GLProfile.get(GLProfile.GL2);
@@ -51,10 +52,13 @@ public class MainGL implements GLEventListener {
         gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
+        // Placer la caméra
         placerCamera(gl);
+
+        // === Mise à jour du vaisseau du joueur ===
         movementSpaceShip.update();
 
-        // === Dessin du vaisseau ===
+        // === Dessin du vaisseau du joueur ===
         gl.glPushMatrix();
         gl.glTranslatef(MovementsSpaceShip.posX, 0.0f, 0.0f);
         placerSpaceShip(gl);
@@ -64,20 +68,9 @@ public class MainGL implements GLEventListener {
         // === Dessiner les tirs ===
         Shoot.drawShoots(gl);
 
-        // === Dessin des ennemis ===
-        resetShiftY();
-        for (int j = 0; j < 2; j++) {
-            resetShiftX();
-            for (int i = 0; i < 8; i++) {
-                gl.glPushMatrix();
-                deplacerGenerationPointFormeX(gl);
-                drawEnemySpaceShip(gl);
-                gl.glPopMatrix();
-            }
-            deplacerGenerationPointFormeY(gl);
-        }
+        // === Dessin des ennemis via ArmyManager ===
+        armyManager.display(gl);  // Utilise la méthode display de ArmyManager pour gérer les ennemis
     }
-
 
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
@@ -95,3 +88,4 @@ public class MainGL implements GLEventListener {
     public void dispose(GLAutoDrawable drawable) {
     }
 }
+
