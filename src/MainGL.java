@@ -12,7 +12,7 @@ import InteractionEspace.MovementsSpaceShip;
 import static Forms3D.SpaceShip.drawSpaceShip;
 import static InteractionEspace.Placements.*;
 
-public class MainGL implements GLEventListener {
+public class MainGL extends Constantes implements GLEventListener {
     private MovementsSpaceShip movementSpaceShip = new MovementsSpaceShip();  // Instanciation du mouvement
     private ArmyManager armyManager = new ArmyManager();  // Instanciation du gestionnaire d'armée
 
@@ -29,7 +29,7 @@ public class MainGL implements GLEventListener {
         glPanel.requestFocus();
 
         JFrame frame = new JFrame("Space Invaders");
-        frame.setSize(1080, 720);
+        frame.setSize(LARGEUR_FENETRE, HAUTEUR_FENETRE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(glPanel);
         frame.setVisible(true);

@@ -1,31 +1,42 @@
 package Forms3D;
 import com.jogamp.opengl.*;
+public class EnemySpaceShip extends Forme3D {
 
-import static InteractionEspace.MovementsEnemySpaceShip.*;
-
-public class EnemySpaceShip {
 
 
     private float posX, posY, posZ; // Position du cube
-    private static float globalSpeedX = 0.004f; // Vitesse globale en X
-    private static float globalSpeedY = 0.01f; // Vitesse globale en Y
+    private float speedY = 0.01f; // Vitesse globale en Y
     public static float angle = 0.0f; // Angle de rotation global
-
     // Constructeur
     public EnemySpaceShip(float posX, float posY) {
         this.posX = posX;
         this.posY = posY;
     }
     // Méthode pour mettre à jour les positions des cubes
-
-    public void draw(GL2 gl) {
+    public void drawingEnemySpaceShip(GL2 gl) {
         gl.glPushMatrix();
-        gl.glTranslatef(posX, posY, posZ);
-        gl.glRotatef(angle, 0.0f, 1.0f, 0.0f); // Rotation autour de l'axe Y
-        drawEnemySpaceShip(gl); // Dessiner le cube
+        gl.glTranslatef(posX, posY, posZ); // on pose notre cube à cette position
+        gl.glRotatef(angle, 1.0f, 1.0f, 1.0f); // tourne dans les 3 sens
+        drawEnemySpaceShip(gl);
+        gl.glPopMatrix();
+        createHitbox(gl);
+    }
+    public void createHitbox(GL2 gl) {
+        gl.glPushMatrix();
+        gl.glTranslatef(posX, posY,0); // on pose notre cube à cette position
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glShadeModel(GL2.GL_SMOOTH);
+        gl.glColor3f(0.0f, 0.0f, 0.0f);
+        gl.glVertex3f(-1.5f, -1.5f, 0.0f);
+        gl.glVertex3f(1.5f, -1.5f, 0.0f);
+        gl.glVertex3f(1.5f, 1.5f, 0.0f);
+        gl.glVertex3f(-1.5f, 1.5f, 0.0f);
+        gl.glEnd();
         gl.glPopMatrix();
     }
-    public static void drawEnemySpaceShip(GL2 gl) {
+
+    //dessiner la forme du vaisseau ennemi (cube)
+    public void drawEnemySpaceShip(GL2 gl) {
         // Dessin du cube avec des couleurs pastel
         gl.glBegin(GL2.GL_QUADS);
         gl.glShadeModel(GL2.GL_SMOOTH);
@@ -74,33 +85,36 @@ public class EnemySpaceShip {
 
         gl.glEnd();
 
-        angle += 0.10f;
-
-        // Appeler les méthodes de déplacement
-        updatePositionEnemySpaceShip();
+        angle += 0.1f; // augmente l'angle de rotation
     }
+
     public void mouvement() {
-        posX += globalSpeedX;
+        posY -= speedY;  // Commence par descendre
 
-        // Inverser la direction si le cube atteint les bords
-        if (posX >= 3.0f || posX <= -3.0f) {
-            globalSpeedX = -globalSpeedX;
-            globalSpeedY = 0.01f;
+        // Si le vaisseau atteint la limite basse, il remonte
+        if (posY < -20) {
+            speedY = -speedY;  // Inverse la direction pour remonter
         }
 
-        // Gestion du mouvement vertical
-        if (globalSpeedY > 0) {
-            posY -= globalSpeedY;
-            if (posY <= -20.0f) {
-                posY = 0.0f;
-                globalSpeedY = 0.0f;
-            }
+        // Si le vaisseau remonte trop haut, il redescend
+        if (posY > 20) {
+            speedY = -speedY;
         }
     }
+
+
     public static void updateRotation() {
         angle += 0.5f; // Augmente l'angle globalement
     }
     public float getPosX() {
         return posX;
+    }
+
+    public float getPosY() {
+        return posY;
+    }
+
+    public float getPosZ() {
+        return posZ;
     }
 }

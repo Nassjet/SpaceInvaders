@@ -3,12 +3,10 @@ package Forms3D;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.glu.GLUquadric;
-import InteractionEspace.Collision;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Shoot {
+public class Shoot extends Forme3D{
 
     private static final float SHOOT_RADIUS = 0.1f;  // Rayon du tir
     private static final float SHOOT_HEIGHT = 1.5f;  // Hauteur du tir
@@ -17,6 +15,11 @@ public class Shoot {
     // Liste des tirs actifs
     private static final ArrayList<Shoot> shoots = new ArrayList<>();
 
+
+    // Position du tir individuel
+    public float posX;
+    public float posY;
+    public float posZ = 0.0f;  // En 3D si besoin
     public float getPosY() {
         return posY;
     }
@@ -25,10 +28,11 @@ public class Shoot {
         return posX;
     }
 
-    // Position du tir individuel
-    public float posX;
-    public float posY;
-    public float posZ = 0.0f;  // En 3D si besoin
+    public float getPosZ() {
+        return posZ;
+    }
+
+
 
     // Constructeur : chaque tir a sa propre position initiale
     public Shoot(float x, float y) {
@@ -68,5 +72,15 @@ public class Shoot {
                 iterator.remove();
             }
         }
+
+    }
+    public boolean killEnemySpaceShip(EnemySpaceShip enemySpaceShip) {
+        if(this.yPos < enemySpaceShip.getPosY() + enemySpaceShip.getHauteur()
+                && this.yPos + this.hauteur > enemySpaceShip.getPosY()
+                && this.xPos + this.largeur > enemySpaceShip.getPosX()
+                && this.xPos < enemySpaceShip.getPosX() + enemySpaceShip.getLargeur()){
+            return true;
+        }
+        else{return false;}
     }
 }

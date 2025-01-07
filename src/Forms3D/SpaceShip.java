@@ -2,7 +2,7 @@ package Forms3D;
 
 import com.jogamp.opengl.GL2;
 
-public class SpaceShip {
+public class SpaceShip extends Forme3D {
 
     private static float shipAngle = 0.0f;
 

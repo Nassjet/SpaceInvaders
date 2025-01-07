@@ -20,11 +20,8 @@ public class ArmyManager {
     public void display(GL2 gl) {
         // Dessiner et mettre à jour chaque vaisseau
         for (EnemySpaceShip enemy : enemies) {
-            enemy.draw(gl); // Dessine le vaisseau
-            enemy.mouvement(); // Met à jour sa position
+            enemy.mouvement();
+            enemy.drawingEnemySpaceShip(gl); // Dessine le vaisseau
         }
-
-        // Mettre à jour la rotation globale
-        EnemySpaceShip.updateRotation();
     }
 }
