@@ -2,19 +2,61 @@ package InteractionEspace;
 
 import Forms3D.EnemySpaceShip;
 import Forms3D.Shoot;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class Collision {
+    /**
+     * Gère les collisions entre les tirs actifs et les ennemis.
+     *
+     * @param shoots  Liste des tirs actifs.
+     * @param enemies Liste des ennemis actifs.
+     */
+    public static void handleCollisions(ArrayList<Shoot> shoots, ArrayList<EnemySpaceShip> enemies) {
+        // Parcourir les tirs actifs
+        Iterator<Shoot> shootIterator = shoots.iterator();
+        while (shootIterator.hasNext()) {
+            Shoot shoot = shootIterator.next();
+            boolean hit = false;
 
-    public boolean checkCollision(Shoot projectile, EnemySpaceShip target) {
-        // Calcul de la distance entre le projectile et la cible
-        float dx = projectile.getPosX() - target.getPosX();
-        float dy = projectile.getPosY() - target.getPosY();
-        float dz = projectile.getPosZ() - target.getPosZ();
-        float distance = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+            // Parcourir les ennemis pour détecter les collisions
+            Iterator<EnemySpaceShip> enemyIterator = enemies.iterator();
+            while (enemyIterator.hasNext()) {
+                EnemySpaceShip enemy = enemyIterator.next();
 
-        // Définir une distance minimale de collision
-        float collisionThreshold = 0.2f;
+                // Vérifier si le tir touche l'ennemi
+                if (isColliding(shoot, enemy)) {
+                    // Retirer l'ennemi et signaler la collision
+                    enemyIterator.remove();
+                    hit = true;
+                    break; // Un tir ne peut toucher qu'un seul ennemi
+                }
+            }
 
-        // Si la distance est inférieure à la distance de collision, il y a collision
-        return distance < collisionThreshold;
+            // Si un tir a touché un ennemi, on le retire de la liste des tirs
+            if (hit) {
+                shootIterator.remove();
+            }
+        }
+    }
+
+    /**
+     * Vérifie si un tir et un ennemi sont en collision.
+     *
+     * @param shoot Le tir à vérifier.
+     * @param enemy Le vaisseau ennemi à vérifier.
+     * @return true si le tir touche l'ennemi, false sinon.
+     */
+    private static boolean isColliding(Shoot shoot, EnemySpaceShip enemy) {
+        // Exemple de détection basique : comparer les positions
+        float shootX = shoot.getPosX();
+        float shootY = shoot.getPosY();
+        float enemyX = enemy.getPosX();
+        float enemyY = enemy.getPosY();
+
+        // Approximation de la hitbox (tu peux ajuster la taille selon tes besoins)
+        float hitboxSize = 1.5f; // Taille approximative
+        return Math.abs(shootX - enemyX) < hitboxSize && Math.abs(shootY - enemyY) < hitboxSize;
     }
 }

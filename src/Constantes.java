@@ -22,6 +22,7 @@ public abstract class Constantes {
     public final static int LIMITE_GAUCHE_VAISSEAU = 60;
     public final static int LIMITE_DROITE_VAISSEAU = 500;
 
+    private static final int ENEMY_COUNT = 16; // Nombre total de vaisseaux ennemis
     /************************************* ALIEN ***************************************/
     // Dimensions de l'alien
     public static final int LARGEUR_ALIEN = 33;

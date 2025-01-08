@@ -13,21 +13,19 @@ public class Shoot extends Forme3D{
     private static final float SHOOT_SPEED = 0.2f;   // Vitesse de montée du tir
 
     // Liste des tirs actifs
-    private static final ArrayList<Shoot> shoots = new ArrayList<>();
+    public static final ArrayList<Shoot> shoots = new ArrayList<>();
 
 
     // Position du tir individuel
     public float posX;
     public float posY;
     public float posZ = 0.0f;  // En 3D si besoin
-    public float getPosY() {
-        return posY;
-    }
-
     public float getPosX() {
         return posX;
     }
-
+    public float getPosY() {
+        return posY;
+    }
     public float getPosZ() {
         return posZ;
     }

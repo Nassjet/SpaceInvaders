@@ -19,14 +19,14 @@ public class EnemySpaceShip extends Forme3D {
         gl.glRotatef(angle, 1.0f, 1.0f, 1.0f); // tourne dans les 3 sens
         drawEnemySpaceShip(gl);
         gl.glPopMatrix();
-        createHitbox(gl);
+        //createHitbox(gl);
     }
     public void createHitbox(GL2 gl) {
         gl.glPushMatrix();
         gl.glTranslatef(posX, posY,0); // on pose notre cube à cette position
         gl.glBegin(GL2.GL_QUADS);
         gl.glShadeModel(GL2.GL_SMOOTH);
-        gl.glColor3f(0.0f, 0.0f, 0.0f);
+        gl.glColor3f(0f, 0f, 0f);
         gl.glVertex3f(-1.5f, -1.5f, 0.0f);
         gl.glVertex3f(1.5f, -1.5f, 0.0f);
         gl.glVertex3f(1.5f, 1.5f, 0.0f);
