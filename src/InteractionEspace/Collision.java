@@ -2,6 +2,7 @@ package InteractionEspace;
 
 import Forms3D.EnemySpaceShip;
 import Forms3D.Shoot;
+import Utils.Score;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,9 +28,9 @@ public class Collision {
 
                 // Vérifier si le tir touche l'ennemi
                 if (isColliding(shoot, enemy)) {
-                    // Retirer l'ennemi et signaler la collision
                     enemyIterator.remove();
                     hit = true;
+                    Score.addScore(100);
                     break; // Un tir ne peut toucher qu'un seul ennemi
                 }
             }

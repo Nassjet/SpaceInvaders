@@ -1,21 +1,28 @@
-import Forms3D.EnemySpaceShip;
 import Forms3D.Shoot;
-import Forms3D.SpaceShip;
 import InteractionEspace.ArmyManager;
-import InteractionEspace.Placements;
+import Utils.Constantes;
+import Utils.Score;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLJPanel;
 import javax.swing.*;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 import InteractionEspace.MovementsSpaceShip;
+import com.jogamp.opengl.util.awt.TextRenderer;
+
+import java.awt.*;
+
 import static Forms3D.SpaceShip.drawSpaceShip;
 import static InteractionEspace.Placements.*;
 
 public class MainGL extends Constantes implements GLEventListener {
     private MovementsSpaceShip movementSpaceShip = new MovementsSpaceShip();  // Instanciation du mouvement
     private ArmyManager armyManager = new ArmyManager();  // Instanciation du gestionnaire d'armée
+    private Score score;
 
+    public MainGL() {
+        score = new Score();
+    }
     public static void main(String[] args) {
         GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
@@ -44,6 +51,7 @@ public class MainGL extends Constantes implements GLEventListener {
         GL2 gl = drawable.getGL().getGL2();
         gl.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         gl.glEnable(GL2.GL_DEPTH_TEST);  // Activer le test de profondeur
+        score.init(drawable);
     }
 
     @Override
@@ -70,6 +78,9 @@ public class MainGL extends Constantes implements GLEventListener {
 
         // === Dessin des ennemis via ArmyManager ===
         armyManager.display(gl);  // Utilise la méthode display de ArmyManager pour gérer les ennemis
+
+        // === Afficher le MainPackage.Score ===
+        score.displayScore(drawable);
     }
 
     @Override
